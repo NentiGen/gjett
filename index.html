@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="tt.css">
+</head>
+<body>
+
+<p id="riktigbokstaver"></p>
+<form name="formula">
+  <input name="te" type="text" size="5" maxlength="1">
+  <input name="button" type="button" value="Guess" onClick="sjekk()">
+
+  <p id="gjettedeBokstaver">Feil Bokstav:</p>
+
+</form>
+
+<script>
+
+
+  var order = [
+    ["B", "E", "R", "G", "E", "N"]
+
+  ]
+    var random = Math.floor((Math.random()*(order.length-1)));
+
+  var velgord = order[random];
+  var ordgjett = new Array(velgord.length);
+  var feil = 0;
+
+
+  for (var i = 0; i < ordgjett.length; i++){
+    ordgjett[i] = "_ ";
+  }
+
+
+  function printOrdgjett(){
+    for (var i = 0; i < ordgjett.length; i++){
+      var riktigbokstaver = document.getElementById("riktigbokstaver");
+      var buchstabe = document.createTextNode(ordgjett[i]);
+      riktigbokstaver.appendChild(buchstabe);
+    }
+  }
+
+  var sjekk = function(){
+    var f = document.formula;
+    var b = f.elements["te"];
+    var op = b.value;
+    op = op.toUpperCase();
+    for (var i = 0; i < velgord.length; i++){
+      if(velgord[i] === op){
+        ordgjett[i] = op + " ";
+        var treffer = true;
+      }
+      b.value = "";
+    }
+
+
+    var riktigbokstaver = document.getElementById("riktigbokstaver");
+    riktigbokstaver.innerHTML="";
+    printOrdgjett();
+
+
+    if(!treffer){
+      var gjettedeBokstaver = document.getElementById("gjettedeBokstaver");
+      var buchstabe = document.createTextNode(" " + op);
+      gjettedeBokstaver.appendChild(buchstabe);
+      feil++;
+
+    }
+
+
+    var ferdig = true;
+    for (var i = 0; i < ordgjett.length; i++){
+      if(ordgjett[i] === "_ "){
+        ferdig = false;
+      }
+    }
+    if(ferdig){
+      window.alert("nice!");
+    }
+
+
+    if(feil === 6){
+      window.alert("ikke nice.");
+    }
+  }
+
+  function init(){
+    printOrdgjett();
+  }
+
+  window.onload = init;
+</script>
+</body>
+</html>
